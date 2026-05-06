@@ -1,5 +1,6 @@
 import Node from "./node.js";
 
+
 class HashMap {
   constructor() {
     this.loadFactor = 0.75;
@@ -13,7 +14,7 @@ class HashMap {
 
     const primeNumber = 31;
     for (let i = 0; i < key.length; i++) {
-      hashCode = primeNumber * hashCode + key.CodeAt(i);
+      hashCode = primeNumber * hashCode + key.charCodeAt(i);
     }
     return hashCode % this.capacity;
   }
@@ -40,6 +41,18 @@ class HashMap {
     }
     current.next = new Node(key, value);
     this.size++;
+
+    if(this.size > this.capacity * this.loadFactor){
+      const allEntries = this.entries();
+
+      this.capacity *= 2;
+      this.buckets = new Array(this.capacity).fill(null);
+      this.size = 0;
+
+      allEntries.forEach(([key, value]) => {
+        this.set(key, value);
+      });
+    }
   }
 
   get(key) {
@@ -134,7 +147,7 @@ class HashMap {
     const result = [];
     
     for (let i=0; i<this.buckets.length; i++){
-      let current = this.buckets[index];
+      let current = this.buckets[i];
 
       while (current !== null){
         result.push([current.key, current.value]);
@@ -144,3 +157,5 @@ class HashMap {
     return result;
   }
 }
+
+export default HashMap;
