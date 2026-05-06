@@ -119,7 +119,7 @@ class HashMap {
     const result = [];
 
     for (let i=0; i<this.buckets.length; i++){
-      let current = this.buckets[index];
+      let current = this.buckets[i];
 
       while (current !== null){
         result.push(current.key);
